@@ -23,11 +23,11 @@ vector<int> BFS(int vertex, vector<pair<int, int>> edges)
 {
     vector<int>ans;
     unordered_map<int,set<int>>adj;             //I am using set because the ansewer is given in sorted order can also use list but some case will not pass
-    unordered_map<int,bool>vis;
+    unordered_map<int,bool>vis;                  //automatic assign false to all integers
     for(int i=0 ; i<edges.size() ; i++)
     {
-          int u=edges[i].first;
-          int v=edges[i].second;
+          int u=edges[i].first;   //or we can write edges[i][0]
+          int v=edges[i].second;         //or we can write edges[i][1]
           adj[u].insert(v);
           adj[v].insert(u);
      }
