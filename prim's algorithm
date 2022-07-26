@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m, vector<pair<pair<int, int>, int>> &g)
+{
+    //create adjacency list;
+    unordered_map<int,list<pair<int,int>>>adj;
+    for(int i=0 ; i<g.size() ; i++)
+    {
+        int u=g[i].first.first;
+        int v=g[i].first.second;
+        int w=g[i].second;
+        adj[u].push_back(make_pair(v,w));
+        adj[v].push_back(make_pair(u,w));
+    }
+    vector<int>keys(n+1,INT_MAX);
+    vector<bool>mst(n+1,false);    //kyuki hum index ko node se dikha rhe h or nodes one se start h
+    vector<int>parent(n+1,-1);
+    keys[1]=0;
+    parent[1]=-1;
+    for(int i=1 ; i<=n ; i++)
+    {
+        //finding sabse choti value of key array
+         int mini=INT_MAX;
+        int u;
+        for(int j=1 ; j<=n ; j++)
+        {
+            if(mst[j]==false && keys[j]<mini)
+            {
+                  u=j;
+                 mini=keys[j];
+            }
+        }
+        mst[u]=true;
+        for(auto it:adj[u])
+        {
+            int node=it.first;
+            int weight=it.second;
+            if(mst[node]==false && weight<keys[node])
+            {
+                 keys[node]=weight;
+                 parent[node]=u;
+            }
+        }
+    }
+    vector<pair<pair<int, int>, int>>answer;
+    for(int i=2 ; i<=n ; i++)   //2 se start krri loop kyuki 1 ka parent -1 hi h
+    {
+          answer.push_back({{parent[i],i},keys[i]});
+    }
+    return answer;
+}
+
+time complexity=O(n square)
+we can use priority queue to optimize this solution and tc will become O(logn)
