@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+bool cmp(vector<int>&a,vector<int>&b)
+{
+    return a[2]<b[2];
+}
+void makeset(vector<int>&parent,vector<int>&rank,int n)
+{
+    for(int i=1 ; i<=n ; i++)
+    {
+          parent[i]=i;   //initially sabke parent sab khud hi honge
+          rank[i]=0;     //rank initially sabki zero hogi
+    }
+}
+int makeparent(vector<int>&parent,int node)
+{
+    if(node==parent[node])
+    {
+        return node;    //base case agar node khud ki h parent h
+    }
+    return parent[node]=makeparent(parent,parent[node]);  //path compression
+}
+void unionset(vector<int>&parent,vector<int>&rank,int u,int v)
+{
+      u=makeparent(parent,u);    //sabse phle jiska bhi union nikalna h uske parents find kr lo
+      v=makeparent(parent,v);
+      if(rank[u]<rank[v])
+      {
+          parent[u]=v;    //chote vale ka parent change kr denge
+      }
+    else if(rank[v]<rank[u])
+    {
+          parent[v]=u;
+    }
+    else
+    {
+            parent[u]=v;   //it can also be parent[v]=u lekin jo nya parent bna uski rank increment krni pdegi
+         rank[v]++;
+    }
+}
+int minimumSpanningTree(vector<vector<int>>& edges, int n)
+{
+    sort(edges.begin(),edges.end(),cmp);  //cmp use krra kyuki hume weight ke base pr sort krana h
+     vector<int>parent(n);
+        vector<int>rank(n);
+    
+    makeset(parent,rank,n);
+    int res=0;
+    for(int i=0 ; i<edges.size() ; i++)
+    {
+        int u=makeparent(parent,edges[i][0]);
+        //dono nodes ke parent find krre
+         int v=makeparent(parent,edges[i][1]);
+        int w=edges[i][2];
+       
+        if(u!=v)
+        {
+            //agar parent same aate h to ignore nhi to union krna pdega
+            res+=w;   //add minimum spanning tree weight
+            unionset(parent,rank,u,v);
+        }
+    }
+        return res;
+}
+
+time-O(NLONGN) due to sorting
+studies ke according disjoint set or parent find krne ki complexity O(4alpha) hoti h jo ki approx O(4) ke equal h mtlb constant
+space-O(N)
