@@ -1,0 +1,40 @@
+void makeset(vector<int>&parent,vector<int>&rank,int n)
+{
+    for(int i=1 ; i<=n ; i++)
+    {
+          parent[i]=i;   //initially sabke parent sab khud hi honge
+          rank[i]=0;     //rank initially sabki zero hogi
+    }
+}
+void makeparent(vector<int>&parent,int node)
+{
+    if(parent[node]==node)
+    {
+        return node;    //base case agar node khud ki h parent h
+    }
+    return path[node]=makeparent(parent,parent[node]);  //path compression
+}
+void unionset(vector<int>parent,int u,int v)
+{
+      u=makeparent(parent,u);    //sabse phle jiska bhi union nikalna h uske parents find kr lo
+      v=makeparent(parent,v);
+      if(rank[u]<rank[v])
+      {
+          parent[u]=v;    //chote vale ka parent change kr denge
+      }
+    else if(rank[v]<rank[u])
+    {
+          parent[v]=u;
+    }
+    else
+    {
+            parent[u]=v;   //it can also be parent[v]=u lekin jo nya parent bna uski rank increment krni pdegi
+         rank[v]++;
+    }
+}
+int minimumSpanningTree(vector<vector<int>>& edges, int n)
+{
+    vector<int>parent(n);
+    vector<int>rank(n);
+    makeset(parent,rank,n);
+}
