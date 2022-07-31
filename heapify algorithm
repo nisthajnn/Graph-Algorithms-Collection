@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+class heap
+{
+public:
+	 int size;
+   int arr[250];
+   heap()
+{
+ size=0;   //starting mai ek bhi entry nhi h
+}
+void heapify(int arr[],int size,int i)
+{
+	int left=2*i;
+	int right=2*i+1;
+	int max=i;
+	if(left<=size and arr[left]>arr[max])
+	max=left;
+	if(right<=size and arr[right]>arr[max])
+	max=right;
+	if(max!=i)
+	{
+		swap(arr[max],arr[i]);
+		heapify(arr,size,max);
+	}
+}
+};
+int main()
+{
+	int arr[]={-1,2,6,8,3,7};
+	int n=5;
+	heap maxheap;
+	for(int i=n/2 ; i>=1 ; i--)   //complete binary tree ki property hoti h ki usmai leaf node n/2+1 se n tak hoti h or leaf node heap hoti h isliye unhe check krne ki need nhi h
+		{
+			maxheap.heapify(arr,n,i);
+		}
+	for(int i=1 ; i<=n ; i++)
+		cout<<arr[i]<<" ";
+return 0;
+}
