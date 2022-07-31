@@ -1,0 +1,98 @@
+#include<bits/stdc++.h>
+using namespace std;
+class heap
+{
+public:
+	 int size;
+   int arr[250];
+   heap()
+{
+ size=0;   //starting mai ek bhi entry nhi h
+}
+void insert(int val)
+{
+	 size=size+1;
+	 int index=size;
+	arr[index]=val;  //insert the value at the last position
+	while(index>1)    //take the node to correct position
+		{
+	int parentindex=index/2;
+	if(arr[parentindex]<arr[index])
+	{
+		swap(arr[parentindex],arr[index]);
+		index=parentindex;
+		}
+			else
+		break;
+			}
+	}
+void deleteinheap()
+{
+	//always root element will be deleted only
+	if(size==0)
+	{
+		cout<<"no element to delete"; 
+		return;
+		}
+	int index=1;   //initialize index
+	swap(arr[1],arr[size]);   //deletion bss root node ka hi hoga lekin usse last node se replace krenge
+	size--;            //size-- mtlb humne last value chodh di
+	while(index<=size)    //out of bound nhi hona chahiye
+		{
+			int max=index;
+			int left=2*index;
+			int right=2*index+1;
+			if(left<=size and arr[left]>arr[max])        //left right or current node mai max find krenge or usse index se swap kr denge
+		    max=left;
+			else if(right<=size and arr[right]>arr[max])
+				max=right;
+			if(max!=index)
+			{
+			swap(arr[index],arr[max]);
+					index=max;
+					}
+			else
+			{
+			       	break;            //agar max index ke equal h mtlb apni shi jgeh pr h isliye break
+			} 
+		}
+}
+	void print()
+	{
+		for(int i=1 ; i<=size ; i++)
+			{
+				cout<<arr[i]<<" ";
+	}
+}
+};
+int main()
+{
+	heap maxheap;
+	maxheap.insert(2);
+	maxheap.insert(6);
+	maxheap.insert(8);
+	maxheap.insert(3);
+	maxheap.insert(7);
+	maxheap.print();
+		maxheap.deleteinheap();
+	maxheap.print();
+	cout<<endl;
+	maxheap.deleteinheap();
+	maxheap.print();
+	cout<<endl;
+	maxheap.deleteinheap();
+	maxheap.print();
+	cout<<endl;
+	maxheap.deleteinheap();
+	maxheap.print();
+	cout<<endl;
+	maxheap.deleteinheap();
+	maxheap.print();
+	cout<<endl;
+
+
+	return 0;
+}
+
+
+time complexity of insertion and deletion=o(logn)   //as similar to binary search divide and conqueur by 2
