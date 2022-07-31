@@ -1,36 +1,25 @@
-#include<bits/stdc++.h>
-bool dfs(int src,unordered_map<int,list<int>>&adj,unordered_map<int,bool>&vis,
-         unordered_map<int,bool>&dfsvis)
-{
-    vis[src]=1;
-    dfsvis[src]=1;
-    for(auto it:adj[src])
+USING DFS-
+    bool dfs(int node, vector<int>adj[], unordered_map<int,bool>&vis,
+    unordered_map<int,bool>&dfsvis)
     {
-        if(!vis[it])
+        vis[node]=true;
+        dfsvis[node]=true;
+        for(auto it:adj[node])
         {
-        bool check=dfs(it,adj,vis,dfsvis);
-        if(check)
-            return true;
+            if(!vis[it])
+            {
+                if(dfs(it,adj,vis,dfsvis))
+                return 1;
+            }
+                else if(vis[it] and dfsvis[it])
+                return 1;
+            }
+            dfsvis[node]=0;
+            return 0;
         }
-        else if(dfsvis[it])
-        {
-             return true;
-        }
-    }
-          dfsvis[src]=false;
-  
-            return false;
-}
-int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges)
-{
-    unordered_map<int,list<int>>adj;
-    for(int i=0 ; i<edges.size() ; i++)
+     bool isCyclic(int n, vector<int> adj[]) 
     {
-       int u=edges[i].first;
-        int v=edges[i].second;
-        adj[u].push_back(v);
-    }
-    unordered_map<int,bool>vis;
+       unordered_map<int,bool>vis;
     unordered_map<int,bool>dfsvis;
     for(int i=0 ; i<n ; i++)
     {
@@ -42,7 +31,8 @@ int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges)
         }
     }
     return false;
-}
+    }
+};
 time=O(N+E)
 space=O(n)
 
