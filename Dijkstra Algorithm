@@ -1,39 +1,36 @@
 #include<bits/stdc++.h>
-vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source)
+vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source) 
 {
-   unordered_map<int,list<pair<int,int>>>adj;
+    unordered_map<int,list<pair<int,int>>>adj;
+    set<pair<int,int>>s;
+    vector<int>dist(vertices,INT_MAX);
     for(int i=0 ; i<edges ; i++)
     {
-         int u=vec[i][0];
+        int u=vec[i][0];
         int v=vec[i][1];
         int w=vec[i][2];
         adj[u].push_back(make_pair(v,w));
         adj[v].push_back(make_pair(u,w));
     }
-    vector<int>dist(vertices);
-    for(int i=0 ; i<vertices ; i++)
-    {
-          dist[i]=INT_MAX;
-    }
     dist[source]=0;
-    set<pair<int,int>>st;
-    st.insert(make_pair(0,source));
-    while(!st.empty())
+    s.insert(make_pair(0,source));
+    while(!s.empty())
     {
-       auto top=*(st.begin());
-        int dis=top.first;
+       auto top=*(s.begin());
+       int weight=top.first;
         int node=top.second;
-        st.erase(st.begin());
-        for(auto it:adj[node])
-        {
-            int child=it.first;
-            int weight=it.second;
-            if(weight+dis<dist[child])
-            {
-                dist[child]=weight+dis;
-                st.insert(make_pair(dist[child],child));
-            }
-        }
+        s.erase(s.begin());
+       for(auto it:adj[node])
+       {
+           int child=it.first;
+           int we=it.second;
+           if(we+weight<dist[child])
+           {
+               dist[child]=weight+we;
+               s.insert(make_pair(dist[child],child));
+           }
+       }
+       
     }
-    return dist;
+     return dist;
 }
