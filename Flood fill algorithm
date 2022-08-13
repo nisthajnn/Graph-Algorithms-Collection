@@ -26,3 +26,45 @@ public:
         return image;
     }
 };
+
+
+BFS-
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color)
+    {
+        int oldcolor=image[sr][sc];
+        if(oldcolor==color)
+            return image;
+          queue<pair<int,int>>q;
+          q.push(make_pair(sr,sc));
+          while(!q.empty())
+          {
+              int i=q.front().first;
+              int j=q.front().second;
+              image[sr][sc]=color;
+              q.pop();
+              if(i>0 and image[i-1][j]==oldcolor)
+              {
+                  image[i-1][j]=color;
+                  q.push(make_pair(i-1,j));
+              }
+                 if(j>0 and image[i][j-1]==oldcolor)
+               {
+                   image[i][j-1]=color;
+                  q.push(make_pair(i,j-1));
+               }
+                if(j<image[0].size()-1 and image[i][j+1]==oldcolor)
+               {
+                   image[i][j+1]=color;
+                  q.push(make_pair(i,j+1));
+               }
+               if(i<image.size()-1 and image[i+1][j]==oldcolor)
+               {
+                   image[i+1][j]=color;
+                  q.push(make_pair(i+1,j));
+               }
+          }
+        return image;
+    }
+};
