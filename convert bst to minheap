@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct node
+{
+node* left;
+node* right;
+int data;
+};
+void preorderfill(node* root,vector<int>inordert,int index);
+struct node* getnode(int data)
+{
+    struct node* newNode = new node;
+    newNode->data = data;
+    newNode->left = newNode->right = NULL;
+    return newNode;
+}
+ 
+void inorder(node* root,vector<int>&inordert)
+{
+	if(!root)
+		return;
+	inorder(root->left,inordert);
+	inordert.push_back(root->data);
+	inorder(root->right,inordert);
+	
+}
+void preorderfill(node* root,vector<int>&inordert,int *index)
+{
+	if(!root)
+		return;
+	 root->data=inordert[++*index];
+	preorderfill(root->left,inordert,index);
+	preorderfill(root->right,inordert,index);
+	
+}
+void preorder(node* root)
+{
+	if(!root)
+		return;
+		cout<<root->data<<" ";
+	preorder(root->left);
+	preorder(root->right);
+}
+int main()
+{
+		vector<int>inordert;
+	struct node* root = getnode(4);
+    root->left = getnode(2);
+    root->right = getnode(6);
+    root->left->left = getnode(1);
+    root->left->right = getnode(3);
+    root->right->left = getnode(5);
+    root->right->right = getnode(7);
+    inorder(root,inordert);
+	int index=-1;
+	preorderfill(root,inordert,&index);
+    cout << "Preorder Traversal:" << endl;
+    preorder(root);
+	return 0;
+}
