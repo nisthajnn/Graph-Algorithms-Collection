@@ -1,0 +1,154 @@
+#include<bits/stdc++.h>
+int getKthLargest(vector<int> &arr, int k)
+{
+    priority_queue<int,vector<int>,greater<int>>minheap;
+    for(int i=0 ; i<arr.size() ; i++)
+    {
+         int sum=0;
+      for(int j=i ; j<arr.size() ; j++)
+      {
+          sum+=arr[j];
+          if(minheap.size()<k)
+          {
+               minheap.push(sum);
+          }
+          else
+          {
+             if(minheap.top()<sum)
+         {
+           minheap.pop();
+           minheap.push(sum);
+       }
+          }
+      }
+    }
+            return minheap.top();
+}
+
+
+
+second approach-
+// This function takes an array of arrays as an argument and
+// All arrays are assumed to be sorted. It merges them
+// together and prints the final sorted output.
+void mergeKArrays(int arr[][N], int a, int output[])
+{
+    int c = 0;
+
+    // traverse the matrix
+    for (int i = 0; i < a; i++) {
+        for (int j = 0; j < N; j++)
+            output[c++] = arr[i][j];
+    }
+
+    // sort the array
+    sort(output, output + N * a);
+}
+
+time-O(N*K)LOG(N*k)
+space-o(n*K)
+
+
+best approach-
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include<bits/stdc++.h>
+#define N 105
+using namespace std;
+void printArray(vector<int> arr, int size)
+{
+for (int i=0; i < size; i++)
+	cout << arr[i] << " ";
+}
+
+
+// } Driver Code Ends
+//User function Template for C++
+class info
+{
+    public:
+    int data;
+    int row;
+    int col;
+    info(int d,int r,int c)
+    {
+        this->data=d;
+        this->row=r;
+        this->col=c;
+    }
+};
+    class cmp
+    {
+       public:
+       bool operator()(info a,info b)
+       {
+           return (a.data>b.data);
+       }
+    };
+
+class Solution
+{
+    public:
+    //Function to merge k sorted arrays.
+    vector<int> mergeKArrays(vector<vector<int>> arr, int k)
+    {
+        int n=arr[0].size();
+        priority_queue<info,vector<info>,cmp>mini;
+        vector<int>ans;
+        for(int i=0 ; i<k ; i++)
+        {
+            int ele=arr[i][0];
+            info temp(ele,i,0);   //creating info
+            mini.push(temp);
+        }
+        while(!mini.empty())
+        {
+            info temp=mini.top();
+            mini.pop();
+            ans.push_back(temp.data);
+            if(temp.col+1<n)
+            {
+                info topush(arr[temp.row][temp.col+1],temp.row,temp.col+1);
+                mini.push(topush);
+            }
+        }
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--){
+	    int k;
+	    cin>>k;
+	    vector<vector<int>> arr(k, vector<int> (k, 0));
+	    for(int i=0; i<k; i++){
+	        for(int j=0; j<k; j++)
+	        {
+	            cin>>arr[i][j];
+	        }
+	    }
+	    Solution obj;
+    	vector<int> output = obj.mergeKArrays(arr, k);
+    	printArray(output, k*k);
+    	cout<<endl;
+    }
+	return 0;
+}
+
+
+time=O(n*k)logk
+space=O(k)
+
+
+
+
+
+
+
+
